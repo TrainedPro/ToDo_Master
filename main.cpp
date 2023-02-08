@@ -2,6 +2,6 @@
 
 // Tester code
 int main (void){
-    std::cout << "Hello World!" << std::endl;
+    std::cout << "BHUT MUSHKIL HA" << std::endl;
     return 0;
 }
