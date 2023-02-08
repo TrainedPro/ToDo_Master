@@ -2,6 +2,6 @@
 
 // Tester code
 int main (void){
-    std::cout << "BHUT MUSHKIL HA" << std::endl;
+    std::cout << "AAIS" << std::endl;
     return 0;
 }
