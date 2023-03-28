@@ -11,7 +11,7 @@ private:
       tm date;
       static int priority;     
 public:
-   Task(/* args */);
+   Task();
    void setDescrption(string des);
    void setTask(string task);
    void toComplete();
