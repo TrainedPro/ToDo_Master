@@ -1,68 +1,63 @@
-#include<iostream>
-#include<string>
-#include<algorithm>
-#include<vector>
-using namespace std;
-class Sort{
-	string name[3];
-    vector<string> dates;
-	public:
-		Sort(){
-			storename();
-			storeDates();
-			sortname();
-			sortDates();
-			printNames();
-			printDates();
-		}
-		void sortname(){
-			int Fletter;
-			int Sletter;
-			string temp;
-			for(int i=0;i<2;i++)
-    {
-        if(name[i][0] > name[i+1][0])
-        {
-            temp=name[i+1];
-            name[i+1]=name[i];
-            name[i]=temp;
+#include <algorithm>
+#include <iostream>
+#include <string>
+#include <vector>
+
+class Sort {
+    std::string name[3];
+    std::vector<std::string> dates;
+
+public:
+    Sort() {
+        storename();
+        storeDates();
+        sortname();
+        sortDates();
+        printNames();
+        printDates();
+    }
+    void sortname() {
+        int Fletter;
+        int Sletter;
+        std::string temp;
+        for (int i = 0; i < 2; i++) {
+            if (name[i][0] > name[i + 1][0]) {
+                temp = name[i + 1];
+                name[i + 1] = name[i];
+                name[i] = temp;
+            }
         }
     }
-		}
-		void printNames(){
-			for(int i=0;i<3;i++)
-			{
-				cout<<"name of persn "<<i+1<<" "<<name[i]<<endl;
-			
-			}
-		}
-		void storename(){
-			cout<<"enetr names "<<endl;
-			for(int i=0;i<3;i++)
-			{
-			 cout<<"enetr name of person "<<i+1<<endl;
-			 getline(cin>>ws,name[i]);
-			}
-		}
-	 void sortDates(){
-        sort(dates.begin(), dates.end() , greater<string>());
+    void printNames() {
+        for (int i = 0; i < 3; i++) {
+            std::cout << "name of persn " << i + 1 << " " << name[i] << std::endl;
+        }
+    }
+    void storename() {
+        std::cout << "enetr names " << std::endl;
+        for (int i = 0; i < 3; i++) {
+            std::cout << "enetr name of person " << i + 1 << std::endl;
+            std::getline(std::cin >> std::ws, name[i]);
+        }
+    }
+    void sortDates() {
+        sort(dates.begin(), dates.end(), std::greater<std::string>());
     }
 
-	void printDates(){
-        for(int i=0; i<dates.size(); i++){
-            cout << dates[i] << endl;
+    void printDates() {
+        for (int i = 0; i < dates.size(); i++) {
+            std::cout << dates[i] << std::endl;
         }
     }
-    void storeDates(){
-        cout << "Enter dates (in any format):" << endl;
-        for(int i=0; i<3; i++){
-            string date;
-            getline(cin>>ws, date);
+    void storeDates() {
+        std::cout << "Enter dates (in any format):" << std::endl;
+        for (int i = 0; i < 3; i++) {
+            std::string date;
+            std::getline(std::cin >> std::ws, date);
             dates.push_back(date);
         }
     }
 };
-int main()
-{
-	Sort object;
+int main() {
+    Sort object;
 }
