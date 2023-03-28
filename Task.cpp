@@ -1,125 +1,63 @@
-#include <iomanip>
-#include <iostream>
-#include <ctime>
-
+#include<iostream>
+#include<iomanip>
+#include<ctime>
 using namespace std;
-
-class Task {
-    static int ID;
-    string title;
-    string description;
-    tm date;
-    bool completed;
-
+class Task
+{
+private:
+      string Title;
+      string Descrition;
+      bool completed;
+      tm date;
+      static int priority;     
 public:
-    Task(/* args */);
-    void ADDtask();
-    void setDescription(string des);
-    void set_Task(string task);
-    void to_complete();
-    string get_titile();
-    string get_descrption();
-    bool check_status();
-    void print();
-    void del_task();
+   Task(/* args */);
+   void setDescrption(string des);
+   void setTask(string task);
+   void toComplete();
+   string getTitile();
+   string getDescrption();
+   void setTime(tm date);
+   tm getTime();
+   bool checkStatus();
+   ~Task();
 };
-
 Task::Task() {
-    title = "TITLE";
-    description = "DESCRPTION";
-    completed = false;
-    size = 0;
+    Title="TITLE";
+    Descrition="DESCRPTION";
+    completed=false;
+    priority++;
 }
-
-void Task::ADDtask() {
-    string title;
-    string description;
-    Task *temp = new Task[size + 1];
-    for (int i = 0; i < size; i++) {
-        temp[i] = no_of_task[i];
-    }
-    cout << "ENTER TITLE: " << endl;
-    cin >> title;
-    cout << "ENTER DESCRPTION : " << endl;
-    cin >> description;
-    temp[size].set_Task(title);
-    temp[size].setDescription(description);
-    size++;
-    no_of_task = temp;
-}
-
-void Task::setDescription(string des) {
-    description = des;
-}
-
-void Task::set_Task(string task) {
-    this->title = task;
-}
-
-void Task::to_complete() {
-    completed = true;
-}
-
-string Task::get_titile() {
-    return title;
-}
-
-string Task::get_descrption() {
-    return description;
-}
-
-bool Task::check_status() {
+void Task::setDescrption(string des){
+     Descrition=des;
+   }
+   void Task::setTask(string task) {
+      this->Title=task;
+   }
+   void Task::toComplete() {
+    completed=true;
+   }
+   string Task::getTitile() {
+    return Title;
+   }
+   string Task::getDescrption() {
+    return Descrition;
+   }
+   void Task::setTime(tm date) {
+      this->date=date;
+   }
+   tm Task::getTime() {
+      
+      return date;
+   }
+   bool Task::checkStatus() {
     return completed;
-}
-
-void Task::print() {
-
-    for (int i = 0; i < size; i++) {
-        cout << "TITLE : " << no_of_task[i].title << endl;
-        cout << "DESCRPTION : " << endl
-             << "            " << no_of_task[i].description << endl;
-        if (no_of_task[i].check_status()) {
-            cout << "TASK : "
-                 << "TASK COMPLETED" << endl;
-        } else {
-            cout << "TASK   : "
-                 << "TASK UNCOMPLETED" << endl;
-        }
-    }
-}
-void Task::del_task() {
-    int index;
-
-    cout << "ENTER NO YOU WANT TO DELETE: ";
-    cin >> index;
-    if (index > size || index < 1) {
-        cout << "TASK DOESNOT EXIST " << endl;
-    } else {
-        index = index - 1;
-        Task *temp;
-        temp = new Task[size - 1];
-        int j = 0;
-        for (int i = 0; i < size; i++) {
-            if (i == index) {
-                continue;
-            } else {
-                temp[j++] = no_of_task[i];
-            }
-        }
-        //   delete []no_of_task;
-        //   no_of_task=NULL;
-        no_of_task = temp;
-        delete[] temp;
-        size--;
-    }
-}
-int main() {
-
-    Task a1;
-    a1.ADDtask();
-    a1.ADDtask();
-    a1.del_task();
-    a1.print();
+   }
+   Task::~Task() {
+      priority--;
+   }
+   int Task::priority = 0;
+   int main() {
 
     return 0;
 }
