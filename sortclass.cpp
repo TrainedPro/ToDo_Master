@@ -9,14 +9,15 @@ class Sort {
 
 public:
     Sort() {
-        storename();
+        storeName();
         storeDates();
-        sortname();
+        sortName();
         sortDates();
         printNames();
         printDates();
     }
-    void sortname() {
+
+    void sortName() {
         int Fletter;
         int Sletter;
         std::string temp;
@@ -28,18 +29,21 @@ public:
             }
         }
     }
+
     void printNames() {
         for (int i = 0; i < 3; i++) {
-            std::cout << "name of persn " << i + 1 << " " << name[i] << std::endl;
+            std::cout << "Name of person: " << i + 1 << " " << name[i] << std::endl;
         }
     }
-    void storename() {
-        std::cout << "enetr names " << std::endl;
+
+    void storeName() {
+        std::cout << "Enter names: " << std::endl;
         for (int i = 0; i < 3; i++) {
             std::cout << "enetr name of person " << i + 1 << std::endl;
             std::getline(std::cin >> std::ws, name[i]);
         }
     }
+
     void sortDates() {
         sort(dates.begin(), dates.end(), std::greater<std::string>());
     }
@@ -49,6 +53,7 @@ public:
             std::cout << dates[i] << std::endl;
         }
     }
+
     void storeDates() {
         std::cout << "Enter dates (in any format):" << std::endl;
         for (int i = 0; i < 3; i++) {
@@ -58,6 +63,7 @@ public:
         }
     }
 };
+
 int main() {
     Sort object;
 }
