@@ -32,11 +32,12 @@ void Task::setDescrption(string des){
      Descrition=des;
    }
    void Task::setTask(string task) {
-      int count=0;
+      int count;
       while(1){
+         count=0;
          for (int i = 0; i < task.length(); i++)
          {
-            if (task[i]==" ")
+            if (task[i]==' ')
             {
                count++;
             }
@@ -80,6 +81,6 @@ void Task::setDescrption(string des){
    int Task::priority = 0;
    int main() {
       Task a1;
-      a1.setTask("AAIS");
+      a1.setTask("AAIS   ");
     return 0;
 }
