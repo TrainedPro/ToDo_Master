@@ -32,8 +32,18 @@ void Task::setDescrption(string des){
      Descrition=des;
    }
    void Task::setTask(string task) {
+      int count=0;
       while(1){
-      if (task.length()>2)
+         for (int i = 0; i < task.length(); i++)
+         {
+            if (task[i]==" ")
+            {
+               count++;
+            }
+            
+         }
+         
+      if (task.length()>256 || count>15)
       {
          cout<<"TITLE CANT BE GRETER THEN 256 WORD"<<endl;
          cout<<"enter title  again"<<endl;
