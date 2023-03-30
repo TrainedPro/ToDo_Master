@@ -32,8 +32,19 @@ void Task::setDescrption(string des){
      Descrition=des;
    }
    void Task::setTask(string task) {
+      int count;
       while(1){
-      if (task.length()>2)
+         count=0;
+         for (int i = 0; i < task.length(); i++)
+         {
+            if (task[i]==' ')
+            {
+               count++;
+            }
+            
+         }
+         
+      if (task.length()>256 || count>15)
       {
          cout<<"TITLE CANT BE GRETER THEN 256 WORD"<<endl;
          cout<<"enter title  again"<<endl;
@@ -70,6 +81,6 @@ void Task::setDescrption(string des){
    int Task::priority = 0;
    int main() {
       Task a1;
-      a1.setTask("AAIS");
+      a1.setTask("AAIS   ");
     return 0;
 }
