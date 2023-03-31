@@ -1,101 +1,95 @@
-#include<iostream>
-#include<iomanip>
-#include<ctime>
-using namespace std;
-class Task
-{
-private:
-      string Title;
-      string Descrition;
-      bool completed;
-      tm date;
-      int id;     
-public:
-   Task();
-   void setDescrption(string des);
-   void setTitle(string title);
-   void toComplete();
-   string getTitile();
-   string getDescrption();
-   void setTime(tm date);
-   tm getTime();
-   void set_id(int id);
-   int get_id();
-   bool checkStatus();
-   ~Task();
-};
-Task::Task() {
-    Title="TITLE";
-    Descrition="DESCRPTION";
-    completed=false;
-    id++;
-}
-void Task::setDescrption(string des){
-     Descrition=des;
-   }
-   void Task::setTitle(string title) {
-      int count;
-      while(1){
-         count=0;
-         for (int i = 0; i < title.length(); i++)
-         {
-            if (title[i]==' ')
-            {
-               count++;
-            }
-            
-         }
-         
-      if (title.length()>256 || count>15)
-      {
-         cout<<"TITLE CANT BE GRETER THEN 256 WORD"<<endl;
-         cout<<"enter title  again"<<endl;
-         getline(cin>>ws,title);
-      }
-      else{
-      this->Title=title;
-        break;
-      }
-      }
-   }
-   void Task::toComplete() {
-    completed=true;
-   }
-   string Task::getTitile() {
-    return Title;
-   }
-   string Task::getDescrption() {
-    return Descrition;
-   }
-   void Task::setTime(tm date) {
-      this->date=date;
-   }
-   tm Task::getTime() {
-      
-      return date;
-   }
-   void Task::set_id(int id) {
-      if (id<0)
-      {
-         cout<<"ID CANT BE NEGATIVE "<<endl;
-      }
-      else{
+#include <iostream>
+#include <ctime>
 
-         this->id=id;
+class Task {
+   int id;
+   std::string title;
+   std::string description;
+   tm date;
+   bool completed;
+
+public:
+   Task(tm date = {0}, std::string title = "Null Title", std::string description = "Null Description", bool completed = false);
+   void setID(unsigned int);
+   int getID();
+   void setTitle(std::string &);
+   std::string getTitle();
+   void setDescription(std::string &);
+   std::string getDescription();
+   void setDate(tm &);
+   tm getDate()const;
+   void setCompleted(bool);
+   bool isCompleted()const;
+};
+
+Task::Task(tm date, std::string title, std::string description, bool completed) {
+   setTitle(title);
+   setDescription(description);
+
+   time_t currentTime;
+   time(&currentTime);
+   tm *dateCopy = localtime(&currentTime);
+   setDate(*dateCopy);
+}
+
+void Task::setID(unsigned int id) {
+   this->id = id;
+}
+
+int Task::getID() {
+   return id;
+}
+
+void Task::setTitle(std::string &title) {
+   int words;
+
+   while (1) {
+      words = 0;
+      for (int i = 0; i < title.length(); i++) {
+         if (title[i] == ' ') {
+            words++;
+         }
       }
-      
+
+      if (title.length() > 256 || words > 15) {
+         std::cout << "Make Title Fewer Than 16 Words And 256 Characters: " << std::endl;
+         getline(std::cin >> std::ws, title);
+      } else {
+         this->title = title;
+         break;
+      }
    }
-   int Task::get_id() {
-      return id;
-   }
-   bool Task::checkStatus() {
-      return completed;
-   }
-   Task::~Task() {
-      id--;
-   }
-   int main() {
-      Task a1;
-      a1.setTitle("AAIS   ");
-    return 0;
+}
+
+std::string Task::getTitle() {
+   return title;
+}
+
+void Task::setDescription(std::string &description) {
+   this -> description = description;
+}
+
+std::string Task::getDescription() {
+   return description;
+}
+
+void Task::setCompleted(bool completed){
+   this -> completed = completed;
+}
+
+bool Task::isCompleted()const{
+   return completed;
+}
+
+void Task::setDate(tm &date) {
+   this->date = date;
+}
+
+tm Task::getDate()const{
+   return date;
+}
+
+int main() {
+   Task a1;
+   return 0;
 }
