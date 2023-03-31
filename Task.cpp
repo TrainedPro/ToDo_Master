@@ -9,16 +9,18 @@ private:
       string Descrition;
       bool completed;
       tm date;
-      static int priority;     
+      int id;     
 public:
    Task();
    void setDescrption(string des);
-   void setTask(string task);
+   void setTitle(string title);
    void toComplete();
    string getTitile();
    string getDescrption();
    void setTime(tm date);
    tm getTime();
+   void set_id(int id);
+   int get_id();
    bool checkStatus();
    ~Task();
 };
@@ -26,32 +28,32 @@ Task::Task() {
     Title="TITLE";
     Descrition="DESCRPTION";
     completed=false;
-    priority++;
+    id++;
 }
 void Task::setDescrption(string des){
      Descrition=des;
    }
-   void Task::setTask(string task) {
+   void Task::setTitle(string title) {
       int count;
       while(1){
          count=0;
-         for (int i = 0; i < task.length(); i++)
+         for (int i = 0; i < title.length(); i++)
          {
-            if (task[i]==' ')
+            if (title[i]==' ')
             {
                count++;
             }
             
          }
          
-      if (task.length()>256 || count>15)
+      if (title.length()>256 || count>15)
       {
          cout<<"TITLE CANT BE GRETER THEN 256 WORD"<<endl;
          cout<<"enter title  again"<<endl;
-         getline(cin>>ws,task);
+         getline(cin>>ws,title);
       }
       else{
-      this->Title=task;
+      this->Title=title;
         break;
       }
       }
@@ -72,15 +74,28 @@ void Task::setDescrption(string des){
       
       return date;
    }
+   void Task::set_id(int id) {
+      if (id<0)
+      {
+         cout<<"ID CANT BE NEGATIVE "<<endl;
+      }
+      else{
+
+         this->id=id;
+      }
+      
+   }
+   int Task::get_id() {
+      return id;
+   }
    bool Task::checkStatus() {
-    return completed;
+      return completed;
    }
    Task::~Task() {
-      priority--;
+      id--;
    }
-   int Task::priority = 0;
    int main() {
       Task a1;
-      a1.setTask("AAIS   ");
+      a1.setTitle("AAIS   ");
     return 0;
 }
