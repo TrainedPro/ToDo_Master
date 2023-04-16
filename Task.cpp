@@ -13,9 +13,9 @@ public:
    Task(std::string title = "Null Title", std::string description = "Null Description", time_t dueDate = 0, bool completed = false);
    void setID(unsigned int);
    int getID();
-   void setTitle(std::string &);
+   bool setTitle(const std::string &);
    std::string getTitle();
-   void setDescription(std::string &);
+   void setDescription(const std::string &);
    std::string getDescription();
    void setDueDate(const time_t);
    time_t getDueDate()const;
@@ -45,32 +45,25 @@ int Task::getID() {
    return id;
 }
 
-void Task::setTitle(std::string &title) {
-   int words;
+bool Task::setTitle(const std::string &title) {
+   int words = 0;
 
-   while (1) {
-      words = 0;
-      for (int i = 0; i < title.length(); i++) {
-         if (title[i] == ' ') {
-            words++;
-         }
-      }
-
-      if (title.length() > 256 || words > 15) {
-         std::cout << "Make Title Fewer Than 16 Words And 256 Characters: " << std::endl;
-         getline(std::cin >> std::ws, title);
-      } else {
-         this->title = title;
-         break;
+   for (int i = 0; i < title.length(); i++) {
+      if (title[i] == ' ') {
+         words++;
       }
    }
+
+   if (title.length() > 256 || words > 16) return false;
+   else this->title = title;
+   return true;
 }
 
 std::string Task::getTitle() {
    return title;
 }
 
-void Task::setDescription(std::string &description) {
+void Task::setDescription(const std::string &description) {
    this -> description = description;
 }
 
