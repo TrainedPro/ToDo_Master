@@ -5,36 +5,34 @@ class Task {
    int id;
    std::string title;
    std::string description;
-   tm dueDate;
-   tm dateAdded;
+   time_t dueDate;
+   time_t dateAdded;
    bool completed;
 
 public:
-   Task(std::string title = "Null Title", std::string description = "Null Description", tm dueDate = {0}, bool completed = false);
+   Task(std::string title = "Null Title", std::string description = "Null Description", time_t dueDate = 0, bool completed = false);
    void setID(unsigned int);
    int getID();
    void setTitle(std::string &);
    std::string getTitle();
    void setDescription(std::string &);
    std::string getDescription();
-   void setDueDate(const tm &);
-   tm getDueDate()const;
-   void setDateAdded(const tm &);
-   tm getDateAdded()const;
+   void setDueDate(const time_t);
+   time_t getDueDate()const;
+   void setDateAdded(const time_t);
+   time_t getDateAdded()const;
    void setCompleted(bool);
    bool isCompleted()const;
 };
 
-Task::Task(std::string title, std::string description, tm dueDate, bool completed) {
+Task::Task(std::string title, std::string description, time_t dueDate, bool completed) {
    setTitle(title);
    setDescription(description);
 
-   time_t currentTime;
-   time(&currentTime);
-   tm *dateCopy = localtime(&currentTime);
+   time(&dueDate); // set the time to current time in epoch
 
-   setDueDate(*dateCopy);
-   setDateAdded(*dateCopy);
+   setDueDate(dueDate);
+   setDateAdded(dueDate);
 
    setCompleted(completed);
 }
@@ -88,19 +86,19 @@ bool Task::isCompleted()const{
    return completed;
 }
 
-void Task::setDueDate(const tm &dueDate) {
+void Task::setDueDate(const time_t dueDate) {
    this->dueDate = dueDate;
 }
 
-tm Task::getDueDate()const{
+time_t Task::getDueDate()const{
    return dueDate;
 }
 
-void Task::setDateAdded(const tm &dateAdded) {
+void Task::setDateAdded(const time_t dateAdded) {
    this->dateAdded = dateAdded;
 }
 
-tm Task::getDateAdded()const{
+time_t Task::getDateAdded()const{
    return dateAdded;
 }
 
