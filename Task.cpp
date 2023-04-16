@@ -12,11 +12,11 @@ class Task {
 public:
    Task(std::string title = "Null Title", std::string description = "Null Description", time_t dueDate = 0, bool completed = false);
    void setID(unsigned int);
-   int getID();
+   int getID()const;
    bool setTitle(const std::string &);
-   std::string getTitle();
+   std::string getTitle()const;
    void setDescription(const std::string &);
-   std::string getDescription();
+   std::string getDescription()const;
    void setDueDate(const time_t);
    time_t getDueDate()const;
    void setDateAdded(const time_t);
@@ -41,7 +41,7 @@ void Task::setID(unsigned int id) {
    this->id = id;
 }
 
-int Task::getID() {
+int Task::getID()const {
    return id;
 }
 
@@ -59,7 +59,7 @@ bool Task::setTitle(const std::string &title) {
    return true;
 }
 
-std::string Task::getTitle() {
+std::string Task::getTitle()const {
    return title;
 }
 
@@ -67,7 +67,7 @@ void Task::setDescription(const std::string &description) {
    this -> description = description;
 }
 
-std::string Task::getDescription() {
+std::string Task::getDescription()const {
    return description;
 }
 
