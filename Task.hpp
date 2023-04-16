@@ -94,8 +94,3 @@ void Task::setDateAdded(const time_t dateAdded) {
 time_t Task::getDateAdded()const{
    return dateAdded;
 }
-
-int main() {
-   Task a1;
-   return 0;
-}
