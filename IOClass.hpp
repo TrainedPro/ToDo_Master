@@ -28,12 +28,32 @@ class IOClass{
 
     public:
     std::vector<Task> tasks;
-    IOClass(std::string fileName){
-        this -> fileName = fileName;
+    IOClass(std::string &fileName){
+        setFileName(fileName);
     }
 
-    void setFileName(std::string fileName) {
-        this -> fileName = fileName;
+    void setFileName(const std::string &fileName) { // formatting and validating fileName
+        this->fileName = fileName;
+        
+        this->fileName.erase(0, this->fileName.find_first_not_of(" ")); // Remove leading white spaces
+
+        this->fileName.erase(this->fileName.find_last_not_of(" ") + 1); // Remove trailing white spaces
+
+        if (this->fileName.length() < 6) {
+            this->fileName += ".json";
+        }
+        else if(this->fileName.substr(this->fileName.length() - 5) != ".json"){
+            std::string extension = this->fileName.substr(this->fileName.length() - 5);
+
+            std::transform(extension.begin(), extension.end(), extension.begin(), [](unsigned char c){ return std::tolower(c); });
+
+            if (extension == ".json") { // checks for cases such as ".JsOn" or other upper and lower case combinations
+                this->fileName.replace(this->fileName.length() - 5, 5, ".json");
+            }
+            else{
+                this->fileName += ".json";
+            }
+        }
     }
 
     std::string getFileName()const {
@@ -70,10 +90,28 @@ class IOClass{
         return true;
     }
 
-    bool writeAll()const {
-        std::ofstream file(fileName);
-        if (!file.is_open()) {
-            throw std::runtime_error("Failed To Open File " + fileName);
+    bool writeAll() const {
+        std::string tempFileName = "temp_" + fileName;
+
+        if (std::filesystem::exists(tempFileName)) {
+            
+            if(std::filesystem::exists(fileName)){
+                if (std::remove(tempFileName.c_str())) {
+                    throw std::runtime_error("Failed To Delete Old Temp File " + tempFileName);
+                    return false;
+                }
+            }
+            else{
+                if (std::rename(tempFileName.c_str(), fileName.c_str())) {
+                    throw std::runtime_error("Failed To Rename Temporary File At Start " + tempFileName + " To " + fileName);
+                    return false;
+                }
+            }
+        }
+
+        std::ofstream tempFile(tempFileName);
+        if (!tempFile.is_open()) {
+            throw std::runtime_error("Failed To Create Temporary File " + tempFileName);
             return false;
         }
 
@@ -88,7 +126,21 @@ class IOClass{
             });
         }
 
-        file << std::setw(4) << json << std::endl;
+        tempFile << std::setw(4) << json << std::endl;
+        tempFile.close();
+
+        // Replace old file with new one
+        if (std::filesystem::exists(fileName)) {
+            if (std::remove(fileName.c_str())) {
+                throw std::runtime_error("Failed To Delete Old File " + fileName);
+                return false;
+            }
+        }
+        if (std::rename(tempFileName.c_str(), fileName.c_str())) {
+            throw std::runtime_error("Failed To Rename Temporary File " + tempFileName + " To " + fileName);
+            return false;
+        }
+
         return true;
     }
 
