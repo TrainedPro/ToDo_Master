@@ -14,6 +14,8 @@ public:
    Task();
    void setDescrption(string des);
    void setTask(string task);
+   void setId(int id1 );
+   int getId();
    void toComplete();
    string getTitile();
    string getDescrption();
@@ -27,6 +29,14 @@ Task::Task() {
     Descrition="DESCRPTION";
     completed=false;
     priority++;
+}
+void Task::setId(int id)
+{
+        id = id1;
+}
+int Task:: getId()
+{
+    return id;
 }
 void Task::setDescrption(string des){
      Descrition=des;
