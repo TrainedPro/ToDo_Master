@@ -9,14 +9,11 @@
 
 
 class TaskList {
-private:
-    std::vector<Task> taskList;
-
 public:
+    std::vector<Task> taskList;
     TaskList();
-    void addTask(int id = -1, Task task);
+    void addTask(Task task, int id = -1);
     void deleteTask(int id = 0);
-    void printAllTasks();
     Task& getTask(int id = 0);
     void sortID();
     void TaskList::sortTitle();
@@ -29,7 +26,7 @@ public:
 
 TaskList::TaskList() {}
 
-void TaskList::addTask(int id, Task task) {
+void TaskList::addTask(Task task, int id) {
 	if(id < 0 || id > taskList.size()) taskList.push_back(task);
 	else taskList.insert(taskList.begin() + id, task);
 }
@@ -76,4 +73,4 @@ void TaskList::sortDateAdded(){
 
 TaskList::~TaskList() {}
 
-#endif TASKLIST_H
+#endif
