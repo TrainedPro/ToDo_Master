@@ -8,7 +8,7 @@
 #include "Task.hpp"
 
 
-class TaskList {
+class TaskList{
 public:
     std::vector<Task> taskList;
     TaskList();
@@ -16,12 +16,10 @@ public:
     void deleteTask(int id = 0);
     Task& getTask(int id = 0);
     void sortID();
-    void TaskList::sortTitle();
-    void TaskList::sortDueDate();
-    void TaskList::sortDateAdded();
+    void sortTitle();
+    void sortDueDate();
+    void sortDateAdded();
     ~TaskList();
-
-
 };
 
 TaskList::TaskList() {}
