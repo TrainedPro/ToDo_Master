@@ -12,20 +12,20 @@ class TaskList{
 public:
     std::vector<Task> taskList;
     TaskList();
-    void addTask(Task task, int id = -1);
-    void deleteTask(int id = 0);
-    Task& getTask(int id = 0);
-    void sortID();
-    void sortTitle();
-    void sortDueDate();
-    void sortDateAdded();
+    virtual void addTask(Task task, int id = -1);
+    virtual void deleteTask(int id = -1);
+    Task getTask(int id = -1);
+    virtual void sortID();
+    virtual void sortTitle();
+    virtual void sortDueDate();
+    virtual void sortDateAdded();
     ~TaskList();
 };
 
 TaskList::TaskList() {}
 
 void TaskList::addTask(Task task, int id) {
-	if(id < 0 || id > taskList.size()) taskList.push_back(task);
+	if(id < 0 || id >= taskList.size()) taskList.push_back(task);
 	else taskList.insert(taskList.begin() + id, task);
 }
 
@@ -33,7 +33,7 @@ void TaskList::deleteTask(int id) {
 	if(id >= 0 && id < taskList.size()) taskList.erase(taskList.begin() + id);
 }
 
-Task& TaskList::getTask(int id) {
+Task TaskList::getTask(int id) {
     return taskList.at(id);
 }
 
