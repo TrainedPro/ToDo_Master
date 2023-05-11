@@ -29,7 +29,7 @@ class IOClass{
 
     public:
     TaskList tasks;
-    IOClass(std::string &);
+    IOClass(std::string);
 
     void setFileName(const std::string &fileName); // formatting and validating fileName
     std::string getFileName()const;
@@ -39,7 +39,7 @@ class IOClass{
     void testReadOperations(std::string fileName = "test.json");
 };
 
-IOClass::IOClass(std::string &fileName){
+IOClass::IOClass(std::string fileName){
     setFileName(fileName);
 }
 
