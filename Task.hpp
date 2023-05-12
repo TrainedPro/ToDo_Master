@@ -1,3 +1,6 @@
+#ifndef TASK_H
+#define TASK_H
+
 #include <iostream>
 #include <ctime>
 
@@ -11,6 +14,7 @@ class Task {
 
 public:
    Task(std::string title = "Null Title", std::string description = "Null Description", time_t dueDate = 0, bool completed = false);
+   Task(std::string, std::string, time_t, time_t, bool);
    void setID(unsigned int);
    int getID()const;
    bool setTitle(const std::string &);
@@ -24,6 +28,14 @@ public:
    void setCompleted(bool);
    bool isCompleted()const;
 };
+
+Task::Task(std::string title, std::string description, time_t dueDate, time_t dateAdded, bool completed) {
+   setTitle(title);
+   setDescription(description);
+   setDueDate(dueDate);
+   setDateAdded(dateAdded);
+   setCompleted(completed);
+}
 
 Task::Task(std::string title, std::string description, time_t dueDate, bool completed) {
    setTitle(title);
@@ -94,3 +106,4 @@ void Task::setDateAdded(const time_t dateAdded) {
 time_t Task::getDateAdded()const{
    return dateAdded;
 }
+#endif

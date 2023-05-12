@@ -6,7 +6,7 @@
 #include <iostream>
 #include <vector>
 #include "Task.hpp"
-
+#include "include/json/json.hpp"
 
 class TaskList{
 public:
@@ -19,6 +19,9 @@ public:
     virtual void sortTitle();
     virtual void sortDueDate();
     virtual void sortDateAdded();
+
+    virtual nlohmann::json getJson()const;
+    virtual void setJson(const nlohmann::json &);
     ~TaskList();
 };
 
@@ -66,6 +69,38 @@ void TaskList::sortDateAdded(){
         for(int j = 0; j < taskList.size(); j++){
             if(taskList[i].getDateAdded() > taskList[j].getDateAdded()) std::swap(taskList[i], taskList[j]);
         }
+    }
+}
+
+nlohmann::json TaskList::getJson()const{
+    nlohmann::json json;
+
+    json.push_back({
+        {"Type", "TaskList"},
+    });
+
+    for(const Task& currentTask : taskList){
+        json.push_back({
+            {"title", currentTask.getTitle()},
+            {"description", currentTask.getDescription()},
+            {"dueDate", currentTask.getDueDate()},
+            {"dateAdded", currentTask.getDateAdded()},
+            {"completed", currentTask.isCompleted()}
+        });
+    }
+
+    return json;
+}
+
+void TaskList::setJson(const nlohmann::json &json){
+    for(int i = 1; i < json.size(); i++){
+        Task currentTask(json.at(i)["title"], json.at(i)["description"], json.at(i)["dueDate"], json.at(i)["dateAdded"],json.at(i)["completed"]);
+        taskList.push_back(currentTask);
+    }
+    this->sortDueDate();
+
+    for(int i = 0; i < taskList.size(); i++){
+        taskList[i].setID(i + 1);
     }
 }
 
