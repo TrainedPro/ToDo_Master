@@ -18,6 +18,9 @@ public:
     void sortTitle();
     void sortDueDate();
     void sortDateAdded();
+    virtual nlohmann::json getJson()const;
+    virtual void setJson(const nlohmann::json &);
+    void printTask(int);
 };
 
 void DetailedTaskList::addTask(Task task, int id) {
@@ -115,20 +118,56 @@ void DetailedTaskList::sortDateAdded(){
     }
 }
 
-int main(void){
-    DetailedTaskList longTask;
-    Task task1;
-    longTask.addTask(task1, 0);
-    longTask.addSubTask("Hello World!", 0);
-    longTask.addSubTask("Hello World 2", 0);
+nlohmann::json DetailedTaskList::getJson()const{
+    nlohmann::json json;
 
-    std::cout << "Main Task: " << longTask.getTask(0).getTitle() << std::endl;
-    for(int i = 0; i < longTask.getSubTaskLength(0); i++){
-        std::cout << "  SubTask:" << longTask.getSubTask(0, i) << std::endl;
+    json.push_back({
+        {"Type", "DetailedTaskList"},
+    });
+
+    for(int i = 0; i < taskList.size(); i++){
+        json.push_back({
+            {"title", taskList.at(i).getTitle()},
+            {"subtasks: ", subTasks.at(i)},
+            {"dueDate", taskList.at(i).getDueDate()},
+            {"dateAdded", taskList.at(i).getDateAdded()},
+            {"completed", taskList.at(i).isCompleted()}
+        });
     }
 
-    return 0;
-    
+    return json;
+}
+
+void DetailedTaskList::setJson(const nlohmann::json &json){
+    Task currentTask;
+
+    for(int i = 1; i < json.size(); i++){
+        currentTask.setTitle(json.at(i)["title"]);
+        subTasks.push_back(json.at(i)["subtasks"]);
+        currentTask.setDueDate(json.at(i)["dueDate"]);
+        currentTask.setDateAdded(json.at(i)["dateAdded"]);
+        currentTask.setCompleted(json.at(i)["completed"]);
+        taskList.push_back(currentTask);
+    }
+    this->sortDueDate();
+
+    for(int i = 0; i < taskList.size(); i++){
+        taskList[i].setID(i + 1);
+    }
+}
+
+void DetailedTaskList::printTask(int id){
+    std::cout << "Task Title: " << taskList.at(id).getTitle() << std::endl;
+    std::cout << "Due Date: " << taskList.at(id).epochToString(taskList.at(id).getDueDate()) << std::endl;
+    std::cout << "Date Added: " << taskList.at(id).epochToString(taskList.at(id).getDateAdded()) << std::endl;
+    std::cout << "SubTasks: ";
+    if (subTasks.at(id).empty()) {
+        std::cout << "No SubTasks Available" << std::endl;
+    } else {
+        for(int i = 0; i < subTasks.at(id).size(); i++){
+            std::cout << i + 1 << ") " << subTasks.at(id).at(i) << std::endl;
+        }
+    }
 }
 
 

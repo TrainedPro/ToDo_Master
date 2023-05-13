@@ -2,13 +2,13 @@
 
 IOClass Documentation:
 
-The IOClass is a class designed to handle input/output operations related to JSON files. It provides two main methods for these operations, readAll() and writeAll(), which respectively read all the data from a JSON file and write all the data to a JSON file.
+The IOClass is a class designed to handle input/output operations related to JSON files. It provides two main methods for these operations, readJson() and writeJson(), which respectively read all the data from a JSON file and write all the data to a JSON file.
 
 To use the IOClass, follow these steps:
 
 Create an instance of the IOClass by calling its constructor with the file name as its argument. For example, IOClass IOOperations("test.json");.
-To read the data from the file, call the readAll() method on the IOClass object. This method will read all the data from the file and store it in the IOClass object's tasks vector.
-To write the data to the file, call the writeAll() method on the IOClass object. This method will write all the data stored in the tasks vector to the file.
+To read the data from the file, call the readJson() method on the IOClass object. This method will read all the data from the file and store it in the IOClass object's tasks vector.
+To write the data to the file, call the writeJson() method on the IOClass object. This method will write all the data stored in the tasks vector to the file.
 Optionally, you can test the read and write operations by calling the testReadOperations() and testWriteOperations() methods on the IOClass object, respectively. The testReadOperations() method reads data from a test JSON file, while the testWriteOperations() method generates random data and writes it to a test JSON file.
 
 
@@ -23,27 +23,26 @@ Optionally, you can test the read and write operations by calling the testReadOp
 #include "include/json/json.hpp"
 #include "Task.hpp"
 #include "TaskList.hpp"
+#include "DetailedTaskList.hpp"
 
 class IOClass{
     std::string fileName;
 
     public:
-    TaskList tasks;
     IOClass(std::string);
-
-    void setFileName(const std::string &fileName); // formatting and validating fileName
+    void setFileName(std::string); // formatting and validating fileName
     std::string getFileName()const;
-    bool readAll();
-    bool writeAll() const;
-    void testWriteOperations();
-    void testReadOperations(std::string fileName = "test.json");
+    bool readJson(TaskList &)const;
+    bool writeJson(const TaskList &) const;
+    void testWriteOperations(TaskList &tasks);
+    void testReadOperations(TaskList &tasks);
 };
 
 IOClass::IOClass(std::string fileName){
     setFileName(fileName);
 }
 
-void IOClass::setFileName(const std::string &fileName) { // formatting and validating fileName
+void IOClass::setFileName(std::string fileName) { // formatting and validating fileName
     this->fileName = fileName;
     
     this->fileName.erase(0, this->fileName.find_first_not_of(" ")); // Remove leading white spaces
@@ -71,7 +70,7 @@ std::string IOClass::getFileName()const{
     return fileName;
 }
 
-bool IOClass::readAll() {
+bool IOClass::readJson(TaskList &tasks)const {
     std::ifstream file(fileName);
     if (!file.is_open()) {
         throw std::runtime_error("Failed To Open File " + fileName);
@@ -81,27 +80,12 @@ bool IOClass::readAll() {
     nlohmann::json json;
     file >> json;
 
-    int i = 0;
-    for(const auto& jsonData: json){
-        i++;
-        Task currentTask;
-        currentTask.setID(i);
-        std::string strings = jsonData["title"]; // temporary variable to store all strings
-
-        currentTask.setTitle(strings);
-        strings = jsonData["description"];
-        currentTask.setDescription(strings);
-        currentTask.setDueDate(jsonData["dueDate"]);
-        currentTask.setDateAdded(jsonData["dateAdded"]);
-        currentTask.setCompleted(jsonData["completed"]);
-
-        tasks.addTask(currentTask);
-    }
+    tasks.setJson(json); // write the json data to the object
 
     return true;
 }
 
-bool IOClass::writeAll() const {
+bool IOClass::writeJson(const TaskList &tasks) const {
     std::string tempFileName = "temp_" + fileName;
 
     if (std::filesystem::exists(tempFileName)) {
@@ -126,16 +110,7 @@ bool IOClass::writeAll() const {
         return false;
     }
 
-    nlohmann::json json;
-    for (const Task& currentTask : tasks.taskList) {
-        json.push_back({
-            {"title", currentTask.getTitle()},
-            {"description", currentTask.getDescription()},
-            {"dueDate", currentTask.getDueDate()},
-            {"dateAdded", currentTask.getDateAdded()},
-            {"completed", currentTask.isCompleted()}
-        });
-    }
+    nlohmann::json json = tasks.getJson(); // get data in the json object from the object
 
     tempFile << std::setw(4) << json << std::endl;
     tempFile.close();
@@ -155,7 +130,7 @@ bool IOClass::writeAll() const {
     return true;
 }
 
-void IOClass::testWriteOperations(){
+void IOClass::testWriteOperations(TaskList &tasks){
     srand(time(NULL)); // initialize random seed
     std::string tempFileName = fileName;
     fileName = "test.json";
@@ -171,25 +146,12 @@ void IOClass::testWriteOperations(){
     }
 
     // write tasks to JSON file
-    writeAll();
+    writeJson(tasks);
     fileName = tempFileName;
 }
 
-void IOClass::testReadOperations(std::string fileName = "test.json"){
-    std::string tempFileName = this -> fileName;
-    this -> fileName = fileName; 
-    readAll();
-
-    for(Task operation: tasks.taskList){
-        std::cout << "ID: " << operation.getID() << std::endl 
-        << "Title: " <<  operation.getTitle() << std::endl
-        << "Description: " << operation.getDescription() << std::endl
-        << "Due Date: " << operation.getDueDate() << std::endl
-        << "Date Added: " << operation.getDateAdded() << std::endl << std::endl;
-
-    }
-
-    this->fileName = tempFileName;
+void IOClass::testReadOperations(TaskList &tasks){
+    std::cout << tasks;
 }
 
 

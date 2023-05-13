@@ -19,6 +19,8 @@ public:
     virtual void sortTitle();
     virtual void sortDueDate();
     virtual void sortDateAdded();
+    
+    friend std::ostream& operator<<(std::ostream&, TaskList);
 
     virtual nlohmann::json getJson()const;
     virtual void setJson(const nlohmann::json &);
@@ -72,6 +74,17 @@ void TaskList::sortDateAdded(){
     }
 }
 
+std::ostream& operator<<(std::ostream& cout, TaskList allTasks){
+    cout << "#      Due Date     Title\n";
+    cout << "------------------------------------\n";
+    for (int i = 0; i < allTasks.taskList.size(); ++i) {
+        cout << std::setw(4) << std::left << i + 1 << " | ";
+        cout << allTasks.taskList.at(i).epochToString(allTasks.taskList.at(i).getDueDate()) << " | ";
+        cout << std::setw(12) << allTasks.taskList.at(i).getTitle() << std::endl;
+    }
+    return cout;
+}
+
 nlohmann::json TaskList::getJson()const{
     nlohmann::json json;
 
@@ -93,8 +106,13 @@ nlohmann::json TaskList::getJson()const{
 }
 
 void TaskList::setJson(const nlohmann::json &json){
+    Task currentTask;
     for(int i = 1; i < json.size(); i++){
-        Task currentTask(json.at(i)["title"], json.at(i)["description"], json.at(i)["dueDate"], json.at(i)["dateAdded"],json.at(i)["completed"]);
+        currentTask.setTitle(json.at(i)["title"]);
+        currentTask.setDescription(json.at(i)["description"]);
+        currentTask.setDueDate(json.at(i)["dueDate"]);
+        currentTask.setDateAdded(json.at(i)["dateAdded"]);
+        currentTask.setCompleted(json.at(i)["completed"]);
         taskList.push_back(currentTask);
     }
     this->sortDueDate();
