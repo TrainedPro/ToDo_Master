@@ -11,7 +11,6 @@
 class TaskList{
 public:
     std::vector<Task> taskList;
-    TaskList();
     virtual void addTask(Task task, int id = -1);
     virtual void deleteTask(int id = -1);
     Task getTask(int id = -1);
@@ -19,6 +18,8 @@ public:
     virtual void sortTitle();
     virtual void sortDueDate();
     virtual void sortDateAdded();
+    virtual void printTask(int);
+    virtual void deleteAll();
     
     friend std::ostream& operator<<(std::ostream&, TaskList);
 
@@ -27,7 +28,6 @@ public:
     ~TaskList();
 };
 
-TaskList::TaskList() {}
 
 void TaskList::addTask(Task task, int id) {
 	if(id < 0 || id >= taskList.size()) taskList.push_back(task);
@@ -72,6 +72,14 @@ void TaskList::sortDateAdded(){
             if(taskList[i].getDateAdded() > taskList[j].getDateAdded()) std::swap(taskList[i], taskList[j]);
         }
     }
+}
+
+void TaskList::printTask(int id){
+	if(id >= 0 && id < taskList.size()) std::cout << taskList.at(id);
+}
+
+void TaskList::deleteAll(){
+    taskList.clear();
 }
 
 std::ostream& operator<<(std::ostream& cout, TaskList allTasks){

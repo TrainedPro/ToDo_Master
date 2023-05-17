@@ -18,9 +18,11 @@ public:
     void sortTitle();
     void sortDueDate();
     void sortDateAdded();
+    virtual void printTask(int);
+    virtual void deleteAll();
+
     virtual nlohmann::json getJson()const;
     virtual void setJson(const nlohmann::json &);
-    void printTask(int);
 };
 
 void DetailedTaskList::addTask(Task task, int id) {
@@ -118,6 +120,30 @@ void DetailedTaskList::sortDateAdded(){
     }
 }
 
+void DetailedTaskList::printTask(int id){
+	if(id >= 0 && id < taskList.size()) {
+        std::cout << "Title: " << taskList.at(id).getTitle() << std::endl;
+        std::cout << "Due Date: " << taskList.at(id).epochToString(taskList.at(id).getDueDate()) << std::endl;
+        std::cout << "Date Added: " << taskList.at(id).epochToString(taskList.at(id).getDateAdded()) << std::endl;
+        std::cout << "SubTasks: ";
+        if (subTasks.at(id).empty()) {
+            std::cout << "No subTasks Available" << std::endl;
+        } else {
+            std::cout << std::endl;
+            for(int i = 0; i < subTasks.at(id).size(); i++){
+                std::cout << i + 1 << ") " << subTasks.at(id).at(i) << std::endl;
+            }
+        }
+        std::cout << "Completed: " << (taskList.at(id).isCompleted() ? "Yes" : "No") << std::endl;
+
+    }
+}
+
+void DetailedTaskList::deleteAll(){
+    taskList.clear();
+    subTasks.clear();
+}
+
 nlohmann::json DetailedTaskList::getJson()const{
     nlohmann::json json;
 
@@ -153,20 +179,6 @@ void DetailedTaskList::setJson(const nlohmann::json &json){
 
     for(int i = 0; i < taskList.size(); i++){
         taskList[i].setID(i + 1);
-    }
-}
-
-void DetailedTaskList::printTask(int id){
-    std::cout << "Task Title: " << taskList.at(id).getTitle() << std::endl;
-    std::cout << "Due Date: " << taskList.at(id).epochToString(taskList.at(id).getDueDate()) << std::endl;
-    std::cout << "Date Added: " << taskList.at(id).epochToString(taskList.at(id).getDateAdded()) << std::endl;
-    std::cout << "SubTasks: ";
-    if (subTasks.at(id).empty()) {
-        std::cout << "No SubTasks Available" << std::endl;
-    } else {
-        for(int i = 0; i < subTasks.at(id).size(); i++){
-            std::cout << i + 1 << ") " << subTasks.at(id).at(i) << std::endl;
-        }
     }
 }
 

@@ -29,9 +29,11 @@ class IOClass{
     std::string fileName;
 
     public:
-    IOClass(std::string);
+    IOClass(std::string fileName = "");
     void setFileName(std::string); // formatting and validating fileName
+    bool fileExists()const;
     std::string getFileName()const;
+    std::string getFileType()const;
     bool readJson(TaskList &)const;
     bool writeJson(const TaskList &) const;
     void testWriteOperations(TaskList &tasks);
@@ -68,6 +70,29 @@ void IOClass::setFileName(std::string fileName) { // formatting and validating f
 
 std::string IOClass::getFileName()const{
     return fileName;
+}
+
+bool IOClass::fileExists()const{
+    std::filesystem::path filePath("test.json");
+
+    if (std::filesystem::exists(filePath)) {
+        return true;
+    } else {
+        return false;
+    }
+}
+
+std::string IOClass::getFileType()const{
+    
+    std::ifstream file(fileName);
+
+    nlohmann::json json;
+    file >> json;
+
+    // Get the "Type" value from the first JSON object
+    std::string type = json[0]["Type"];
+
+    return type;
 }
 
 bool IOClass::readJson(TaskList &tasks)const {
