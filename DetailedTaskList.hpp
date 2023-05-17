@@ -153,7 +153,7 @@ nlohmann::json DetailedTaskList::getJson()const{
 
     for(int i = 0; i < taskList.size(); i++){
         json.push_back({
-            {"title", taskList.at(i).getTitle()},
+            {"title", taskList.at(i).getTitle(false)},
             {"subtasks: ", subTasks.at(i)},
             {"dueDate", taskList.at(i).getDueDate()},
             {"dateAdded", taskList.at(i).getDateAdded()},

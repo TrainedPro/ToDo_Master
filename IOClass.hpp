@@ -73,7 +73,7 @@ std::string IOClass::getFileName()const{
 }
 
 bool IOClass::fileExists()const{
-    std::filesystem::path filePath("test.json");
+    std::filesystem::path filePath(fileName);
 
     if (std::filesystem::exists(filePath)) {
         return true;

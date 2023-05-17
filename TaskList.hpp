@@ -20,6 +20,7 @@ public:
     virtual void sortDateAdded();
     virtual void printTask(int);
     virtual void deleteAll();
+    virtual void addSubTask(std::string subTask, int id = -1){};
     
     friend std::ostream& operator<<(std::ostream&, TaskList);
 
@@ -73,6 +74,7 @@ void TaskList::sortDateAdded(){
         }
     }
 }
+    void addSubTask(std::string subTask, int id = -1, int subID = -1);
 
 void TaskList::printTask(int id){
 	if(id >= 0 && id < taskList.size()) std::cout << taskList.at(id);
@@ -102,7 +104,7 @@ nlohmann::json TaskList::getJson()const{
 
     for(const Task& currentTask : taskList){
         json.push_back({
-            {"title", currentTask.getTitle()},
+            {"title", currentTask.getTitle(false)},
             {"description", currentTask.getDescription()},
             {"dueDate", currentTask.getDueDate()},
             {"dateAdded", currentTask.getDateAdded()},
