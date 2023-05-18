@@ -1,3 +1,5 @@
+#ifndef VIEW_H
+#define VIEW_H
 
 #include <iomanip>
 #include <iostream>
@@ -330,7 +332,4 @@ View::~View() {
     delete tasks;
 }
 
-int main() {
-    View a;
-    a.mainMenu();
-}
+#endif

@@ -1,7 +1,8 @@
-#include <iostream>
+#include "View.hpp"
 
-// Tester code
-int main (void){
-    std::cout << "AAIS" << std::endl;
+int main(void){
+    View viewClass;
+    viewClass.mainMenu(); // driver class and code
+
     return 0;
 }
