@@ -277,7 +277,7 @@ void View::addTasks(){
         }
 
         temp.setDueDate(temp.stringToEpoch(sTemp));
-        tasks->taskList.push_back(temp);
+        tasks->addTask(temp);
     } else {
 
         do{
@@ -299,7 +299,7 @@ void View::addTasks(){
                 }
 
                 temp.setDueDate(temp.stringToEpoch(sTemp));
-                tasks->taskList.push_back(temp);
+                tasks->addTask(temp);
                 break;
             case 2:
                 while(1){

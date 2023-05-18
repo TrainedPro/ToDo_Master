@@ -20,7 +20,7 @@ public:
     virtual void sortDateAdded();
     virtual void printTask(int);
     virtual void deleteAll();
-    virtual void addSubTask(std::string subTask, int id = -1){};
+    virtual void addSubTask(std::string subTask, int id = -1);
     
     friend std::ostream& operator<<(std::ostream&, TaskList);
 
@@ -94,6 +94,8 @@ std::ostream& operator<<(std::ostream& cout, TaskList allTasks){
     }
     return cout;
 }
+
+void TaskList::addSubTask(std::string subTask, int id){}
 
 nlohmann::json TaskList::getJson()const{
     nlohmann::json json;
