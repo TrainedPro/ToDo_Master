@@ -2,6 +2,9 @@
 
 # Master Application
 
+Please don't get confused, this is NOT an ANDROID Application!
+This is a simple c++ program that will take information from you and will save your info in the form of tasks.You can also make changes to your tasks like updating or deleting. 
+
 Welcome to the Master Application project! This application is designed to help users effectively manage their tasks. It provides a range of features to streamline task organization and improve productivity.
 
 
